@@ -1,0 +1,34 @@
+# Obj file
+*.o
+*.plg
+*.tra
+*.axf
+*.crf
+*.d
+*.html
+*.lnp
+*.map
+*.dep
+*.__i
+*.htm
+*.bak
+*~
+*.html
+*.sh
+*.txt
+
+# Other type of project
+EWARM/
+RIDE/
+TASKING/
+TrueSTUDIO/
+
+# ignore sourceinsight file
+sf/
+
+# ignore the Hex file
+*.hex
+
+# ignore the pdf file
+*.pdf
+
