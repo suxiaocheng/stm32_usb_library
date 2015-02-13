@@ -69,94 +69,17 @@ void Set_System(void)
 	   To reconfigure the default setting of SystemInit() function, refer to
 	   system_stm32xxx.c file
 	 */
-
-#if defined(STM32L1XX_MD) || defined(STM32L1XX_HD)|| defined(STM32L1XX_MD_PLUS) ||  defined (STM32F37X) ||  defined (STM32F30X)
-	/* Enable the SYSCFG module clock */
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
-
-#endif /* STM32L1XX_XD */
-
-#if !defined(STM32L1XX_MD) && !defined(STM32L1XX_HD) && !defined(STM32L1XX_MD_PLUS) && !defined(STM32F37X) && !defined(STM32F30X)
 	/* Enable USB_DISCONNECT GPIO clock */
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIO_DISCONNECT, ENABLE);
 
-	/* ADCCLK = PCLK2/8 */
-	RCC_ADCCLKConfig(RCC_PCLK2_Div8);
-#endif /* STM32L1XX_XD */
-
 	/* Configure the used GPIOs */
 	GPIO_Configuration();
-
-#if defined(USB_USE_EXTERNAL_PULLUP)
-	/* Enable the USB disconnect GPIO clock */
-	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIO_DISCONNECT, ENABLE);
-
-	/* USB_DISCONNECT used as USB pull-up */
-	GPIO_InitStructure.GPIO_Pin = USB_DISCONNECT_PIN;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-	GPIO_Init(USB_DISCONNECT, &GPIO_InitStructure);
-#endif /* USB_USE_EXTERNAL_PULLUP */
-
-#if defined(STM32F37X) || defined(STM32F30X)
-
-	/* Enable the USB disconnect GPIO clock */
-	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIO_DISCONNECT, ENABLE);
-
-	/*Set PA11,12 as IN - USB_DM,DP */
-	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_11 | GPIO_Pin_12;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-	/*SET PA11,12 for USB: USB_DM,DP */
-	GPIO_PinAFConfig(GPIOA, GPIO_PinSource11, GPIO_AF_14);
-	GPIO_PinAFConfig(GPIOA, GPIO_PinSource12, GPIO_AF_14);
-
-	/* USB_DISCONNECT used as USB pull-up */
-	GPIO_InitStructure.GPIO_Pin = USB_DISCONNECT_PIN;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-	GPIO_Init(USB_DISCONNECT, &GPIO_InitStructure);
-
-#endif
-#if defined(STM32L1XX_MD)
-	/* Configure the LEFT button in EXTI mode */
-	STM_EVAL_PBInit(Button_LEFT, Mode_EXTI);
-
-	/* Configure the RIGHT button in EXTI mode */
-	STM_EVAL_PBInit(Button_RIGHT, Mode_EXTI);
-#else
-	/* Configure the KEY button in EXTI mode */
-	STM_EVAL_PBInit(Button_KEY, Mode_EXTI);
-#if !defined(STM32L1XX_HD)&& !defined(STM32L1XX_MD_PLUS) && !defined(STM32F37X) && !defined(STM32F30X)
-	/* Configure the Tamper button in EXTI mode */
-	STM_EVAL_PBInit(Button_TAMPER, Mode_EXTI);
-#endif /* STM32L1XX_XD */
-#endif
-	/* Additional EXTI configuration (configure both edges) */
-	EXTI_Configuration();
-
+	
 	/* Configure the LEDs */
-	STM_EVAL_LEDInit(LED1);
-	STM_EVAL_LEDInit(LED2);
-	STM_EVAL_LEDInit(LED3);
-	STM_EVAL_LEDInit(LED4);
-
-#if defined (STM32F30X)
-	ADC30x_Configuration();
-#else
-	/* Configure the ADC */
-	ADC_Configuration();
-#endif
-
+	//STM_EVAL_LEDInit(LED1);
+	//STM_EVAL_LEDInit(LED2);
+	//STM_EVAL_LEDInit(LED3);	
+	//STM_EVAL_LEDInit(LED4);
 }
 
 /*******************************************************************************
@@ -279,6 +202,7 @@ void USB_Interrupts_Config(void)
 	NVIC_Init(&NVIC_InitStructure);
 #endif /* STM32L1XX_XD */
 
+#if 0
 	/* Enable the EXTI9_5 Interrupt */
 	NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
@@ -293,6 +217,7 @@ void USB_Interrupts_Config(void)
 	NVIC_InitStructure.NVIC_IRQChannel = DMA1_Channel1_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
 	NVIC_Init(&NVIC_InitStructure);
+#endif
 
 }
 
@@ -345,11 +270,6 @@ void GPIO_Configuration(void)
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
 	GPIO_Init(USB_DISCONNECT, &GPIO_InitStructure);
 #endif /* STM32L1XX_XD */
-
-	/* Configure Potentiometer IO as analog input */
-	GPIO_InitStructure.GPIO_Pin = GPIO_IOAIN_PIN;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
-	GPIO_Init(GPIO_IOAIN, &GPIO_InitStructure);
 }
 
 /*******************************************************************************
@@ -363,25 +283,6 @@ void EXTI_Configuration(void)
 {
 	EXTI_InitTypeDef EXTI_InitStructure;
 
-#if defined (USE_STM32L152_EVAL)
-	/* Configure RIGHT EXTI line to generate an interrupt on rising & falling edges */
-	EXTI_InitStructure.EXTI_Line = RIGHT_BUTTON_EXTI_LINE;
-	EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
-	EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;
-	EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-	EXTI_Init(&EXTI_InitStructure);
-
-	/* Clear the RIGHT EXTI line pending bit */
-	EXTI_ClearITPendingBit(RIGHT_BUTTON_EXTI_LINE);
-
-	/* Configure LEFT EXTI Line to generate an interrupt rising & falling edges */
-	EXTI_InitStructure.EXTI_Line = LEFT_BUTTON_EXTI_LINE;
-	EXTI_Init(&EXTI_InitStructure);
-
-	/* Clear the LEFT EXTI line pending bit */
-	EXTI_ClearITPendingBit(LEFT_BUTTON_EXTI_LINE);
-
-#else
 	/* Configure Key EXTI line to generate an interrupt on rising & falling edges */
 	EXTI_InitStructure.EXTI_Line = KEY_BUTTON_EXTI_LINE;
 	EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
@@ -393,7 +294,6 @@ void EXTI_Configuration(void)
 	EXTI_ClearITPendingBit(KEY_BUTTON_EXTI_LINE);
 
 	/* Configure Tamper EXTI Line to generate an interrupt rising & falling edges */
-#if !defined (USE_STM32L152D_EVAL) && !defined (STM32F30X)
 	EXTI_InitStructure.EXTI_Line = TAMPER_BUTTON_EXTI_LINE;
 	EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
 	EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising_Falling;
@@ -402,8 +302,6 @@ void EXTI_Configuration(void)
 
 	/* Clear the Tamper EXTI line pending bit */
 	EXTI_ClearITPendingBit(TAMPER_BUTTON_EXTI_LINE);
-#endif
-#endif /* USE_STM32L152_EVAL */
 
 	/* Configure the EXTI line 18 connected internally to the USB IP */
 	EXTI_ClearITPendingBit(EXTI_Line18);

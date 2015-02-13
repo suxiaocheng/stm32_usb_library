@@ -8,6 +8,14 @@ extern "C" {
 #include "stm32f10x.h"
 #include "misc_lib.h"
 
+#ifndef TRUE
+#define TRUE		1
+#endif
+
+#ifndef FALSE
+#define FALSE	0
+#endif
+
 	uint8_t init_debug_fun(void);
 	void serial_put_binary(uint8_t * dat_bin, uint32_t len);
 	uint8_t stm_putc(uint8_t str);

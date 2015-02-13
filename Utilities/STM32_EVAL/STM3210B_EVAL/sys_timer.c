@@ -2,6 +2,7 @@
 
 volatile uint32_t tick_count = 0;
 volatile uint32_t sys_int_times = 0;
+volatile uint8_t sys_timer_20ms_flag = FALSE;
 RCC_ClocksTypeDef sys_clk_def;
 
 void key_process(void);
@@ -21,6 +22,7 @@ void SysTick_Handler(void)
 	//stm_printf("Tick->%d\n", sys_int_times);
 	if (++tick_count >= 200) {
 		tick_count = 0;
+		sys_timer_20ms_flag = TRUE;
 		//key_process();
 	}
 }

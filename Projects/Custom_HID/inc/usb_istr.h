@@ -57,6 +57,8 @@ void EP5_OUT_Callback(void);
 void EP6_OUT_Callback(void);
 void EP7_OUT_Callback(void);
 
+//#define CTR_CALLBACK
+
 #ifdef CTR_CALLBACK
 void CTR_Callback(void);
 #endif

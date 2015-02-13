@@ -32,6 +32,7 @@
 #include "debug.h"
 #include "sys_timer.h"
 #include "stdio.h"
+#include "key.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -55,6 +56,10 @@ void Delay(__IO uint32_t nCount);
 *******************************************************************************/
 int main(void)
 {
+	uint32_t key_value;
+	uint8_t usb_buffer[2];
+	const uint8_t key_report_id_list[] = {5, 6};
+	
 	/* if debug in ram, reset the interrupt vectors to ram area */
 #ifdef VECT_TAB_SRAM
 	SCB->VTOR = (uint32_t) & __Vectors | SCB_VTOR_TBLBASE;
@@ -68,6 +73,7 @@ int main(void)
 
 	stm_printf("startup\n");
 	Set_System();
+	key_init();
 
 	USB_Interrupts_Config();
 
@@ -76,6 +82,29 @@ int main(void)
 	USB_Init();
 
 	while (1) {
+		if(sys_timer_20ms_flag == TRUE){
+			sys_timer_20ms_flag = FALSE;
+			key_value = key_scan();
+			/* short press, send the key press message to the usb */
+			if(key_value & (KEY_STAT_VALID|KEY_STAT_UP)){
+				__disable_irq();
+				if ((PrevXferComplete) && (bDeviceState == CONFIGURED)) {
+					PrevXferComplete = 0;
+					if((key_value & KEY_MSK) < 0x3){
+						usb_buffer[0] = key_report_id_list[key_value & KEY_MSK];
+						if(key_value & KEY_STAT_VALID){
+							usb_buffer[1] = 0x01;
+						}else if(key_value & (KEY_STAT_UP|KEY_STAT_LONG_UP)){
+							usb_buffer[1] = 0x00;
+						}
+						/* Write the descriptor through the endpoint */
+						USB_SIL_Write(EP1_IN, (uint8_t *) usb_buffer, 2);
+						SetEPTxValid(ENDP1);
+					}
+				}
+				__enable_irq();
+			}
+		}
 	}
 }
 

@@ -783,6 +783,12 @@ uint8_t Setup0_Process(void)
 		pInformation->USBwLength = *pBuf.w;	/* wLength */
 	}
 
+	/* Dump information to UART */
+	usb_printf("P:%x-%x-%x-%x-%x\n", pInformation->USBbmRequestType, \
+  		pInformation->USBbRequest, pInformation->USBwValue, \
+  		pInformation->USBwIndex, pInformation->USBwLength);
+
+
 	pInformation->ControlState = SETTING_UP;
 	if (pInformation->USBwLength == 0) {
 		/* Setup with no data stage */

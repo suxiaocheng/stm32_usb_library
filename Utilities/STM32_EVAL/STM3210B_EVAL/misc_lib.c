@@ -1,5 +1,7 @@
 #include "misc_lib.h"
 
+//#define STM_PRINTF_HEX_ADD_PREFIX_EN		//print the hex number, add "0x" prefix
+
 char *DECToASCII(uint32_t dat, char *str)
 {
 	char tmp[12], *stmp = tmp;
@@ -26,8 +28,11 @@ char *HexToASCII(uint32_t dat, char *str)
 	int i;
 
 	*stmp++ = 0;
+
+#ifdef STM_PRINTF_HEX_ADD_PREFIX_EN
 	*str++ = '0';
 	*str++ = 'x';
+#endif
 
 	if (dat == 0)
 		*str++ = '0';

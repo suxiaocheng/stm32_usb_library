@@ -50,6 +50,8 @@
 
 #ifndef DEBUG
 #undef USB_DEBUG
+#else
+#define USB_DEBUG
 #endif
 
 #ifdef USB_DEBUG

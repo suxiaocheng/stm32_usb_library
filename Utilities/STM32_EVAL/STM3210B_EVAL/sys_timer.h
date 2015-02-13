@@ -10,6 +10,7 @@ extern "C" {
 
 	extern volatile uint32_t tick_count;
 	extern volatile uint32_t sys_int_times;
+	extern volatile uint8_t sys_timer_20ms_flag;
 	extern RCC_ClocksTypeDef sys_clk_def;
 
 	uint8_t init_sys_timer(void);
