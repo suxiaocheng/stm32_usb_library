@@ -3,7 +3,7 @@
 __IO uint16_t ADCConvertedValue[8];
 __IO key_info_t key_info = {0, NULL, FALSE};
 
-const uint16_t key_adc_value[4] = {0, 924, 1948, 3896};
+const uint16_t key_adc_value[] = {0, 0x430, 0x790};
 const uint16_t key_msg_value[4] = {KEY_PREV, KEY_MODE, KEY_NEXT, KEY_NULL};
 
 uint32_t key_init(void)
@@ -116,12 +116,16 @@ uint32_t key_scan(void)
 	}
 	key_get_adc_value(&adc_value);
 	
+	//stm_printf("adc_value:%x\n", adc_value);
+	
 	for(i=0; i<(sizeof(key_adc_value)/sizeof(uint16_t)); i++){
-		if((adc_value > key_adc_value[i]) && (adc_value < (key_adc_value[i])+200)){
+		if((adc_value > key_adc_value[i]) && \
+			(adc_value < (key_adc_value[i])+0x100)){
 			current_key = key_msg_value[i];
 			break;
 		}
 	}
+
 	if(current_key != KEY_NULL){
 		if(current_key == key_info.last_key){
 			key_info.count++;

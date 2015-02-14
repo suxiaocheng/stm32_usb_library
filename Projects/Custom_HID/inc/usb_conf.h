@@ -50,8 +50,8 @@
 
 /* EP0  */
 /* rx/tx buffer base address */
-#define ENDP0_RXADDR        (0x18)
-#define ENDP0_TXADDR        (0x58)
+#define ENDP0_RXADDR        (0x40)
+#define ENDP0_TXADDR        (0x80)
 
 /* EP1  */
 /* tx buffer base address */

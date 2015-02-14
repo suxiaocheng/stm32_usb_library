@@ -62,6 +62,9 @@ extern __IO uint32_t TimingDelay;
 *******************************************************************************/
 void NMI_Handler(void)
 {
+	stm_printf("NMI_Handler\n");
+	while (1) {
+	}
 }
 
 /*******************************************************************************
@@ -73,6 +76,7 @@ void NMI_Handler(void)
 *******************************************************************************/
 void HardFault_Handler(void)
 {
+	stm_printf("HardFault_Handler\n");
 	/* Go to infinite loop when Hard Fault exception occurs */
 	while (1) {
 	}
@@ -87,6 +91,7 @@ void HardFault_Handler(void)
 *******************************************************************************/
 void MemManage_Handler(void)
 {
+	stm_printf("MemManage_Handler\n");
 	/* Go to infinite loop when Memory Manage exception occurs */
 	while (1) {
 	}
@@ -101,6 +106,7 @@ void MemManage_Handler(void)
 *******************************************************************************/
 void BusFault_Handler(void)
 {
+	stm_printf("BusFault_Handler\n");
 	/* Go to infinite loop when Bus Fault exception occurs */
 	while (1) {
 	}
@@ -115,6 +121,7 @@ void BusFault_Handler(void)
 *******************************************************************************/
 void UsageFault_Handler(void)
 {
+	stm_printf("UsageFault_Handler\n");
 	/* Go to infinite loop when Usage Fault exception occurs */
 	while (1) {
 	}
@@ -129,6 +136,9 @@ void UsageFault_Handler(void)
 *******************************************************************************/
 void SVC_Handler(void)
 {
+	stm_printf("SVC_Handler\n");
+	while (1) {
+	}
 }
 
 /*******************************************************************************
@@ -140,6 +150,9 @@ void SVC_Handler(void)
 *******************************************************************************/
 void DebugMon_Handler(void)
 {
+	stm_printf("DebugMon_Handler\n");
+	while (1) {
+	}
 }
 
 /*******************************************************************************
@@ -151,6 +164,9 @@ void DebugMon_Handler(void)
 *******************************************************************************/
 void PendSV_Handler(void)
 {
+	stm_printf("PendSV_Handler\n");
+	while (1) {
+	}
 }
 
 /*******************************************************************************

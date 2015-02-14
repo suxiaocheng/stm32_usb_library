@@ -73,24 +73,24 @@ int main(void)
 
 	stm_printf("startup\n");
 	Set_System();
-	key_init();
-
-	USB_Interrupts_Config();
+	//key_init();
 
 	Set_USBClock();
-
+	USB_Interrupts_Config();
 	USB_Init();
-
+	
 	while (1) {
+		#if 0
 		if(sys_timer_20ms_flag == TRUE){
 			sys_timer_20ms_flag = FALSE;
 			key_value = key_scan();
 			/* short press, send the key press message to the usb */
 			if(key_value & (KEY_STAT_VALID|KEY_STAT_UP)){
-				__disable_irq();
+				stm_printf("key:%x\n", key_value);
+				//__disable_irq();
 				if ((PrevXferComplete) && (bDeviceState == CONFIGURED)) {
 					PrevXferComplete = 0;
-					if((key_value & KEY_MSK) < 0x3){
+					if((key_value & KEY_MSK) < 0x2){
 						usb_buffer[0] = key_report_id_list[key_value & KEY_MSK];
 						if(key_value & KEY_STAT_VALID){
 							usb_buffer[1] = 0x01;
@@ -102,9 +102,10 @@ int main(void)
 						SetEPTxValid(ENDP1);
 					}
 				}
-				__enable_irq();
+				//__enable_irq();
 			}
 		}
+		#endif
 	}
 }
 
