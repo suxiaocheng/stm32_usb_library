@@ -108,9 +108,9 @@ const uint8_t CustomHID_ConfigDescriptor[CUSTOMHID_SIZ_CONFIG_DESC] = {
 
 	0x81,			/* bEndpointAddress: Endpoint Address (IN) */
 	0x03,			/* bmAttributes: Interrupt endpoint */
-	0x02,			/* wMaxPacketSize: 2 Bytes max */
+	0x08,			/* wMaxPacketSize: 8 Bytes max */
 	0x00,
-	0x20,			/* bInterval: Polling Interval (32 ms) */
+	0x10,			/* bInterval: Polling Interval (32 ms) */
 	/* 34 */
 
 	0x07,			/* bLength: Endpoint Descriptor size */
@@ -119,129 +119,56 @@ const uint8_t CustomHID_ConfigDescriptor[CUSTOMHID_SIZ_CONFIG_DESC] = {
 	0x01,			/* bEndpointAddress: */
 	/*      Endpoint Address (OUT) */
 	0x03,			/* bmAttributes: Interrupt endpoint */
-	0x02,			/* wMaxPacketSize: 2 Bytes max  */
+	0x08,			/* wMaxPacketSize: 8 Bytes max  */
 	0x00,
 	0x20,			/* bInterval: Polling Interval (20 ms) */
 	/* 41 */
-}
+};
 
-;				/* CustomHID_ConfigDescriptor */
+/* CustomHID_ConfigDescriptor */
 const uint8_t CustomHID_ReportDescriptor[CUSTOMHID_SIZ_REPORT_DESC] = {
-	0x06, 0xFF, 0x00,	/* USAGE_PAGE (Vendor Page: 0xFF00) */
-	0x09, 0x01,		/* USAGE (Demo Kit)               */
-	0xa1, 0x01,		/* COLLECTION (Application)       */
-	/* 6 */
-
-	/* Led 1 */
-	0x85, 0x01,		/*     REPORT_ID (1)              */
-	0x09, 0x01,		/*     USAGE (LED 1)              */
-	0x15, 0x00,		/*     LOGICAL_MINIMUM (0)        */
-	0x25, 0x01,		/*     LOGICAL_MAXIMUM (1)        */
-	0x75, 0x08,		/*     REPORT_SIZE (8)            */
-	0x95, 0x01,		/*     REPORT_COUNT (1)           */
-	0xB1, 0x82,		/*    FEATURE (Data,Var,Abs,Vol) */
-
-	0x85, 0x01,		/*     REPORT_ID (1)              */
-	0x09, 0x01,		/*     USAGE (LED 1)              */
-	0x91, 0x82,		/*     OUTPUT (Data,Var,Abs,Vol)  */
-	/* 26 */
-
-	/* Led 2 */
-	0x85, 0x02,		/*     REPORT_ID 2                */
-	0x09, 0x02,		/*     USAGE (LED 2)              */
-	0x15, 0x00,		/*     LOGICAL_MINIMUM (0)        */
-	0x25, 0x01,		/*     LOGICAL_MAXIMUM (1)        */
-	0x75, 0x08,		/*     REPORT_SIZE (8)            */
-	0x95, 0x01,		/*     REPORT_COUNT (1)           */
-	0xB1, 0x82,		/*    FEATURE (Data,Var,Abs,Vol) */
-
-	0x85, 0x02,		/*     REPORT_ID (2)              */
-	0x09, 0x02,		/*     USAGE (LED 2)              */
-	0x91, 0x82,		/*     OUTPUT (Data,Var,Abs,Vol)  */
-	/* 46 */
-
-	/* Led 3 */
-	0x85, 0x03,		/*     REPORT_ID (3)              */
-	0x09, 0x03,		/*     USAGE (LED 3)              */
-	0x15, 0x00,		/*     LOGICAL_MINIMUM (0)        */
-	0x25, 0x01,		/*     LOGICAL_MAXIMUM (1)        */
-	0x75, 0x08,		/*     REPORT_SIZE (8)            */
-	0x95, 0x01,		/*     REPORT_COUNT (1)           */
-	0xB1, 0x82,		/*    FEATURE (Data,Var,Abs,Vol) */
-
-	0x85, 0x03,		/*     REPORT_ID (3)              */
-	0x09, 0x03,		/*     USAGE (LED 3)              */
-	0x91, 0x82,		/*     OUTPUT (Data,Var,Abs,Vol)  */
-	/* 66 */
-
-	/* Led 4 */
-	0x85, 0x04,		/*     REPORT_ID 4)               */
-	0x09, 0x04,		/*     USAGE (LED 4)              */
-	0x15, 0x00,		/*     LOGICAL_MINIMUM (0)        */
-	0x25, 0x01,		/*     LOGICAL_MAXIMUM (1)        */
-	0x75, 0x08,		/*     REPORT_SIZE (8)            */
-	0x95, 0x01,		/*     REPORT_COUNT (1)           */
-	0xB1, 0x82,		/*     FEATURE (Data,Var,Abs,Vol) */
-
-	0x85, 0x04,		/*     REPORT_ID (4)              */
-	0x09, 0x04,		/*     USAGE (LED 4)              */
-	0x91, 0x82,		/*     OUTPUT (Data,Var,Abs,Vol)  */
-	/* 86 */
-
-	/* key Push Button */
-	0x85, 0x05,		/*     REPORT_ID (5)              */
-	0x09, 0x05,		/*     USAGE (Push Button)        */
-	0x15, 0x00,		/*     LOGICAL_MINIMUM (0)        */
-	0x25, 0x01,		/*     LOGICAL_MAXIMUM (1)        */
-	0x75, 0x01,		/*     REPORT_SIZE (1)            */
-	0x81, 0x82,		/*     INPUT (Data,Var,Abs,Vol)   */
-
-	0x09, 0x05,		/*     USAGE (Push Button)        */
-	0x75, 0x01,		/*     REPORT_SIZE (1)            */
-	0xb1, 0x82,		/*     FEATURE (Data,Var,Abs,Vol) */
-
-	0x75, 0x07,		/*     REPORT_SIZE (7)            */
-	0x81, 0x83,		/*     INPUT (Cnst,Var,Abs,Vol)   */
-	0x85, 0x05,		/*     REPORT_ID (2)              */
-
-	0x75, 0x07,		/*     REPORT_SIZE (7)            */
-	0xb1, 0x83,		/*     FEATURE (Cnst,Var,Abs,Vol) */
-	/* 114 */
-
-	/* Tamper Push Button */
-	0x85, 0x06,		/*     REPORT_ID (6)              */
-	0x09, 0x06,		/*     USAGE (Tamper Push Button) */
-	0x15, 0x00,		/*     LOGICAL_MINIMUM (0)        */
-	0x25, 0x01,		/*     LOGICAL_MAXIMUM (1)        */
-	0x75, 0x01,		/*     REPORT_SIZE (1)            */
-	0x81, 0x82,		/*     INPUT (Data,Var,Abs,Vol)   */
-
-	0x09, 0x06,		/*     USAGE (Tamper Push Button) */
-	0x75, 0x01,		/*     REPORT_SIZE (1)            */
-	0xb1, 0x82,		/*     FEATURE (Data,Var,Abs,Vol) */
-
-	0x75, 0x07,		/*     REPORT_SIZE (7)            */
-	0x81, 0x83,		/*     INPUT (Cnst,Var,Abs,Vol)   */
-	0x85, 0x06,		/*     REPORT_ID (6)              */
-
-	0x75, 0x07,		/*     REPORT_SIZE (7)            */
-	0xb1, 0x83,		/*     FEATURE (Cnst,Var,Abs,Vol) */
-	/* 142 */
-
-	/* ADC IN */
-	0x85, 0x07,		/*     REPORT_ID (7)              */
-	0x09, 0x07,		/*     USAGE (ADC IN)             */
-	0x15, 0x00,		/*     LOGICAL_MINIMUM (0)        */
-	0x26, 0xff, 0x00,	/*     LOGICAL_MAXIMUM (255)      */
-	0x75, 0x08,		/*     REPORT_SIZE (8)            */
-	0x81, 0x82,		/*     INPUT (Data,Var,Abs,Vol)   */
-	0x85, 0x07,		/*     REPORT_ID (7)              */
-	0x09, 0x07,		/*     USAGE (ADC in)             */
-	0xb1, 0x82,		/*     FEATURE (Data,Var,Abs,Vol) */
-	/* 161 */
-
-	0xc0			/*     END_COLLECTION              */
-};				/* CustomHID_ReportDescriptor */
+	0x05, 0x01, 		/*Usage Page (1: Generic Desktop) */
+	0x09, 0x06, 		/*Usage (6: Keyboard) 表示报表定义的是HID键盘*/
+	0xA1, 0x01, 		/*Collection (1: Application) ====================集合开始*/
+						/* 	以下定义了键盘的修饰键输入报表，共有8个键，组成一个字节*/
+						/*	用法见HID Usage Table中的第10节中的键盘用法定义*/
+	0x05, 0x07, 		/* 	Usage page (7: Key Codes) */
+	0x19, 0xe0, 		/* 	Usage Minimum (224)*/
+	0x29, 0xe7, 		/* 	Usage Maximum (231)*/
+	0x15, 0x00, 		/* 	Logical Minimum (0)*/
+	0x25, 0x01, 		/* 	Logical Maximum (1)*/
+	0x75, 0x01, 		/* 	Report Size (1)*/
+	0x95, 0x08, 		/* 	Report Count (8)*/
+	0x81, 0x02,			/* 	Input (Data,Variable,Absolute) */
+						/*	以下定义了一个保留字节的输入报表*/
+	0x95, 0x01,			/*	Report Count (1)*/
+	0x75, 0x08,			/*	Report Size (8),*/
+	0x81, 0x03, 		/* 	Input (Constant) = Reserved Byte*/
+						/*	以下定义了键盘的LED指示灯输出报表项目，共有5个指示灯*/
+						/*	用法见HID Usage Table中的第11节中的LED用法定义*/
+	0x95, 0x05,			/*	Report Count (5)*/
+	0x75, 0x01,			/*	Report Size (1)*/
+	0x05, 0x08,			/*	Usage Page (Page# for LEDs)*/
+	0x19, 0x01,			/*	Usage Minimum (1)*/
+	0x29, 0x05,			/*	Usage Maximum (5)*/
+	0x91, 0x02,			/*	Output (Data, Variable, Absolute)*/
+						/*	以下定义了3个填充位，与前面的5个LED指示灯数据组成一个完整的字节*/
+	0x95, 0x01,			/*	Report Count (1)*/
+	0x75, 0x03,			/*	Report Size (3)*/
+	0x91, 0x03,			/*	Output (Constant)*/
+						/*	以下定义了键盘的按键值输入报表项目，共6个字节，存放键编号（0~101）*/
+						/*	用法见HID Usage Table中的第10节中的键盘用法定义*/
+						/*	这样的设计可以允许一次输入6个按键的键值*/
+	0x95, 0x06,			/*	Report Count (6)*/
+	0x75, 0x08,			/*	Report Size (8)*/
+	0x15, 0x00,			/*	Logical Minimum (0)*/
+	0x25, 0x65,			/*	Logical Maximum (101)*/
+	0x05, 0x07,			/*	Usage Page (7: Key Codes)*/
+	0x19, 0x00,			/*	Usage Minimum (0)*/
+	0x29, 0x65,			/*	Usage Maximum (101)*/
+	0x81, 0x00,			/*	Input (Data, Array)*/
+	0xC0 				/* End_Collection*/
+};		/* CustomHID_ReportDescriptor */
 
 /* USB String Descriptors (optional) */
 const uint8_t CustomHID_StringLangID[CUSTOMHID_SIZ_STRING_LANGID] = {

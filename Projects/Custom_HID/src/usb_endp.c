@@ -110,6 +110,7 @@ void EP1_OUT_Callback(void)
 void EP1_IN_Callback(void)
 {
 	PrevXferComplete = 1;
+	stm_printf("x");
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
