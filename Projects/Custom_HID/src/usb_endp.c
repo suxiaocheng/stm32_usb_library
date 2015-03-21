@@ -30,6 +30,7 @@
 #include "hw_config.h"
 #include "usb_lib.h"
 #include "usb_istr.h"
+#include "key.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -48,56 +49,14 @@ extern __IO uint8_t PrevXferComplete;
 *******************************************************************************/
 void EP1_OUT_Callback(void)
 {
-	BitAction Led_State;
-
 	/* Read received data (2 bytes) */
 	USB_SIL_Read(EP1_OUT, Receive_Buffer);
+	
+	lcd_backlight((Receive_Buffer[0]&0x2)?HIGH:LOW);
 
-	if (Receive_Buffer[1] == 0) {
-		Led_State = Bit_RESET;
-	} else {
-		Led_State = Bit_SET;
-	}
-
-	switch (Receive_Buffer[0]) {
-	case 1:		/* Led 1 */
-		if (Led_State != Bit_RESET) {
-			STM_EVAL_LEDOn(LED1);
-		} else {
-			STM_EVAL_LEDOff(LED1);
-		}
-		break;
-	case 2:		/* Led 2 */
-		if (Led_State != Bit_RESET) {
-			STM_EVAL_LEDOn(LED2);
-		} else {
-			STM_EVAL_LEDOff(LED2);
-		}
-		break;
-	case 3:		/* Led 3 */
-		if (Led_State != Bit_RESET) {
-			STM_EVAL_LEDOn(LED3);
-		} else {
-			STM_EVAL_LEDOff(LED3);
-		}
-		break;
-	case 4:		/* Led 4 */
-		if (Led_State != Bit_RESET) {
-			STM_EVAL_LEDOn(LED4);
-		} else {
-			STM_EVAL_LEDOff(LED4);
-		}
-		break;
-	default:
-		STM_EVAL_LEDOff(LED1);
-		STM_EVAL_LEDOff(LED2);
-		STM_EVAL_LEDOff(LED3);
-		STM_EVAL_LEDOff(LED4);
-		break;
-	}
-
+	stm_printf("EP1OUT:%d\n", Receive_Buffer[0]);
+	
 	SetEPRxStatus(ENDP1, EP_RX_VALID);
-
 }
 
 /*******************************************************************************
@@ -109,8 +68,7 @@ void EP1_OUT_Callback(void)
 *******************************************************************************/
 void EP1_IN_Callback(void)
 {
-	PrevXferComplete = 1;
-	stm_printf("x");
+	PrevXferComplete = 1;	
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

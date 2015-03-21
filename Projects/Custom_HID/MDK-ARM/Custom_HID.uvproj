@@ -359,7 +359,7 @@
             <useXO>0</useXO>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_STDPERIPH_DRIVER, STM32F10X_MD, USE_STM3210B_EVAL,HSE_VALUE=12000000,DEBUG</Define>
+              <Define>USE_STDPERIPH_DRIVER, STM32F10X_MD, USE_STM3210B_EVAL,HSE_VALUE=12000000,DEBUG,VECT_TAB_SRAM</Define>
               <Undefine></Undefine>
               <IncludePath>..\inc;..\..\..\Libraries\CMSIS\Device\ST\STM32F10x\Include;..\..\..\Libraries\STM32_USB-FS-Device_Driver\inc;..\..\..\Libraries\STM32F10x_StdPeriph_Driver\inc;..\..\..\Utilities\STM32_EVAL;..\..\..\Utilities\STM32_EVAL\Common;..\..\..\Utilities\STM32_EVAL\STM3210B_EVAL</IncludePath>
             </VariousControls>
@@ -1988,7 +1988,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile></SFDFile>
+          <SFDFile>$$Device:STM32F103ZE$SVD\STM32F103xx.svd</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>

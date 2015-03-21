@@ -18,6 +18,14 @@
 #ifndef FALSE
 #define FALSE	0
 #endif
+
+#ifndef HIGH
+#define HIGH		1
+#endif
+
+#ifndef LOW
+#define LOW		0
+#endif
 	 
 #define KEY_STAT_UP					((uint32_t)0x1<<31)
 #define KEY_STAT_LONG				((uint32_t)0x1<<30)
@@ -43,6 +51,16 @@ uint32_t key_get_adc_value(uint16_t *adc_val);
 uint32_t battary_get_adc_value(uint16_t *adc_val);
 uint32_t temperature_get_adc_value(uint16_t *adc_val);
 uint32_t key_scan(void);
+
+/* BACKLIGHT->PB5 */
+__inline void lcd_backlight(uint8_t status)
+{
+	if(status == HIGH){
+		GPIOB->BSRR = GPIO_Pin_5;
+	}else{
+		GPIOB->BRR = GPIO_Pin_5;
+	}
+}
 	 
 #ifdef __cplusplus
  }
